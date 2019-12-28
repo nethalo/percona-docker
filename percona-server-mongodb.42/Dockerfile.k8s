@@ -88,6 +88,7 @@ RUN curl -fSL https://github.com/percona/mongodb-orchestration-tools/releases/do
 VOLUME ["/data/db"]
 
 COPY ps-entry.sh /entrypoint.sh
+COPY readiness.sh /readiness.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 27017
