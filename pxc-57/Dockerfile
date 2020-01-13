@@ -47,12 +47,14 @@ RUN yum update -y \
                 libaio \
                 which \
                 pam \
+		sudo \
+		initscripts \
         && yum clean all
 
 # create mysql user/group before mysql installation
 RUN groupadd -g 1001 mysql \
-	&& useradd -u 1001 -r -g 1001 -s /sbin/nologin \
-		-c "Default Application User" mysql
+	&& useradd -u 1001 -g 1001 -G wheel -s /bin/bash \
+		-c "Default Application User" -p $(echo "mysql" | openssl passwd -1 -stdin) mysql
 
 # we need licenses from docs
 RUN sed -i '/nodocs/d' /etc/yum.conf || : \
